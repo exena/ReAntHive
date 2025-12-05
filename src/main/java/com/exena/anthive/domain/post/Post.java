@@ -1,0 +1,41 @@
+package com.exena.anthive.domain.post;
+
+import com.exena.anthive.domain.member.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+
+import static java.util.Objects.requireNonNull;
+
+@Entity
+@Getter
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@AllArgsConstructor(access= AccessLevel.PROTECTED)
+public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+
+    private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    @JsonIgnore
+    private Member member;
+
+    public static Post of(PublishBlogpostFormRequest request, Member member){
+        String title = requireNonNull(request.getTitle());
+        String content = request.getContent();
+        return new Post(null, title, content, requireNonNull(member));
+    }
+
+    public void changeTitle(String newTitle){
+        this.title = requireNonNull(newTitle);
+    }
+
+    public void changeContent(String newContent){
+        this.content = newContent;
+    }
+}

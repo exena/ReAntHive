@@ -1,12 +1,11 @@
 package com.exena.anthive.adapter.integration;
 
-import com.exena.anthive.domain.Email;
+import com.exena.anthive.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.StdIo;
 import org.junitpioneer.jupiter.StdOut;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class DummyEmailSenderTest {
 

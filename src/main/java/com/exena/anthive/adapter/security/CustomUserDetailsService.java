@@ -1,8 +1,8 @@
 package com.exena.anthive.adapter.security;
 
-import com.exena.anthive.application.required.MemberRepository;
-import com.exena.anthive.domain.Email;
-import com.exena.anthive.domain.Member;
+import com.exena.anthive.application.member.required.MemberRepository;
+import com.exena.anthive.domain.shared.Email;
+import com.exena.anthive.domain.member.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

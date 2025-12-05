@@ -1,6 +1,6 @@
 package com.exena.anthive;
 
-import com.exena.anthive.application.provided.EmailSender;
+import com.exena.anthive.application.member.provided.EmailSender;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 

@@ -1,7 +1,7 @@
 package com.exena.anthive.adapter.integration;
 
-import com.exena.anthive.application.provided.EmailSender;
-import com.exena.anthive.domain.Email;
+import com.exena.anthive.application.member.provided.EmailSender;
+import com.exena.anthive.domain.shared.Email;
 import org.springframework.context.annotation.Fallback;
 import org.springframework.stereotype.Component;
 

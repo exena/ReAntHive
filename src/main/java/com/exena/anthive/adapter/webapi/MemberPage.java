@@ -1,6 +1,6 @@
 package com.exena.anthive.adapter.webapi;
 
-import com.exena.anthive.domain.MemberRegisterRequest;
+import com.exena.anthive.domain.member.MemberRegisterRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

@@ -1,6 +1,5 @@
 package com.exena.anthive;
 
-import com.exena.anthive.application.provided.EmailSender;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;

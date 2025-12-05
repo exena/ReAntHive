@@ -1,9 +1,9 @@
 package com.exena.anthive.adapter.webapi;
 
 import com.exena.anthive.adapter.webapi.dto.MemberRegisterResponse;
-import com.exena.anthive.application.provided.MemberRegister;
-import com.exena.anthive.domain.Member;
-import com.exena.anthive.domain.MemberRegisterRequest;
+import com.exena.anthive.application.member.provided.MemberRegister;
+import com.exena.anthive.domain.member.Member;
+import com.exena.anthive.domain.member.MemberRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
