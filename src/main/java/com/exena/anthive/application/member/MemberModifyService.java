@@ -4,9 +4,9 @@ import com.exena.anthive.application.member.provided.EmailSender;
 import com.exena.anthive.application.member.provided.MemberRegister;
 import com.exena.anthive.application.member.required.MemberRepository;
 import com.exena.anthive.domain.member.DuplicateEmailException;
-import com.exena.anthive.domain.shared.Email;
 import com.exena.anthive.domain.member.Member;
 import com.exena.anthive.domain.member.MemberRegisterRequest;
+import com.exena.anthive.domain.shared.Email;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @RequiredArgsConstructor
 public class MemberModifyService implements MemberRegister {
-//    private final MemberFinder memberFinder;
+//    private final MemberFinder memberFinder; // 다른 포트를 가져와서 사용해도 괜찮다
     private final MemberRepository memberRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;

@@ -19,16 +19,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()) // ✅ POST 테스트 위해 (개발용)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/members", "/member/register").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form->form
-                        .loginPage("/member/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .permitAll());
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/css/**", "/js/**", "/api/members", "/member/register").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(form->form
+                .loginPage("/member/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .permitAll());
 
         return http.build();
     }

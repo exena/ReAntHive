@@ -1,7 +1,6 @@
 package com.exena.anthive.application.post.provided;
 
 import com.exena.anthive.AnthiveTestConfiguration;
-import com.exena.anthive.adapter.security.AccountContext;
 import com.exena.anthive.application.member.provided.MemberRegister;
 import com.exena.anthive.domain.member.Member;
 import com.exena.anthive.domain.member.MemberFixture;
@@ -16,18 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 
 import static com.exena.anthive.domain.post.PostFixture.getPublishBlogpostFormRequest;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
 @SpringBootTest

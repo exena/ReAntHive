@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head(${postForm.title})">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu(null)">
+</nav>
+
+<div class="container" id="container1">
+    <h2 th:text="${postForm.title}">글제목</h2>
+    <br>
+    <div id="viewer"></div>
+</div>
+
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
+<script th:inline="javascript">
+    // Thymeleaf를 통해 서버에서 전달된 content 데이터를 가져옵니다.
+    const postContent = /*<![CDATA[*/ [[${postForm.content}]] /*]]*/;
+
+    // ToastUI Editor 초기화
+    const viewer = new toastui.Editor({
+        el: document.querySelector('#viewer'),
+        height: 'auto',
+        initialValue: '', // 초기값 없이 시작
+        toolbarItems: [],
+    });
+
+
+    // 서버에서 받은 content 데이터를 에디터에 설정
+    viewer.setMarkdown(postContent);
+</script>
+
+</body>
+</html>

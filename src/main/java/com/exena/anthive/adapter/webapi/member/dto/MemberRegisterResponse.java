@@ -1,4 +1,4 @@
-package com.exena.anthive.adapter.webapi.dto;
+package com.exena.anthive.adapter.webapi.member.dto;
 
 import com.exena.anthive.domain.member.Member;
 

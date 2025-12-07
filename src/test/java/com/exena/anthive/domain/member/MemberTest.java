@@ -6,8 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 
+import static com.exena.anthive.domain.member.MemberFixture.createMember;
 import static com.exena.anthive.domain.member.MemberFixture.createPasswordEncoder;
-import static com.exena.anthive.domain.member.MemberFixture.createRegisterRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -17,9 +17,8 @@ class MemberTest {
 
     @BeforeEach
     void setUp() {
-        var registerRequest = createRegisterRequest();
         passwordEncoder = createPasswordEncoder();
-        member = Member.register(registerRequest, passwordEncoder);
+        member = createMember();
     }
 
     @Test

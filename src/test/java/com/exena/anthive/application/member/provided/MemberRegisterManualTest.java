@@ -2,9 +2,9 @@ package com.exena.anthive.application.member.provided;
 
 import com.exena.anthive.application.member.MemberModifyService;
 import com.exena.anthive.application.member.required.MemberRepository;
-import com.exena.anthive.domain.shared.Email;
 import com.exena.anthive.domain.member.Member;
 import com.exena.anthive.domain.member.MemberFixture;
+import com.exena.anthive.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;

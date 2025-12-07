@@ -3,7 +3,10 @@ package com.exena.anthive.domain.post;
 import com.exena.anthive.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static java.util.Objects.requireNonNull;
 

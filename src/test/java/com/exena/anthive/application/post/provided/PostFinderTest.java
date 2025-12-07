@@ -6,7 +6,6 @@ import com.exena.anthive.domain.member.Member;
 import com.exena.anthive.domain.member.MemberFixture;
 import com.exena.anthive.domain.post.Post;
 import com.exena.anthive.domain.post.PostNotFoundException;
-import com.exena.anthive.domain.shared.Email;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,19 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.List;
-import java.util.Optional;
-
 import static com.exena.anthive.domain.post.PostFixture.getPublishBlogpostFormRequest;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional

@@ -43,9 +43,9 @@ public class Member {
         Member member = new Member();
 
         member.email = new Email(registerRequest.getEmail());
-        member.nickname = requireNonNull(registerRequest.getNickname());
+        member.nickname = registerRequest.getNickname();
         member.passwordHash = passwordEncoder.encode(requireNonNull(registerRequest.getPassword()));
-        member.roles = requireNonNull(registerRequest.getRoles());
+        member.roles = registerRequest.getRoles();
 
         return member;
     }

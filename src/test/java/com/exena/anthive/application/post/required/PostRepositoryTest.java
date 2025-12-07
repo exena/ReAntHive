@@ -15,7 +15,6 @@ import static com.exena.anthive.domain.member.MemberFixture.createPasswordEncode
 import static com.exena.anthive.domain.member.MemberFixture.createRegisterRequest;
 import static com.exena.anthive.domain.post.PostFixture.getPublishBlogpostFormRequest;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class PostRepositoryTest {

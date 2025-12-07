@@ -1,18 +1,22 @@
-package com.exena.anthive.adapter.webapi;
+package com.exena.anthive.adapter.webapi.member;
 
+import com.exena.anthive.application.member.provided.MemberRegister;
 import com.exena.anthive.domain.member.MemberRegisterRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberPage {
+    private final MemberRegister memberRegister;
 
     @GetMapping("/login")
     public String login(){
@@ -28,11 +32,12 @@ public class MemberPage {
     }
 
     @PostMapping("/register")
-    public String register(@Validated @ModelAttribute("registerRequest") MemberRegisterRequest request,
+    public String register(@Valid @ModelAttribute("registerRequest") MemberRegisterRequest request,
                            BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "/member/register";
         }
+        memberRegister.register(request);
         return "redirect:/";
     }
 }

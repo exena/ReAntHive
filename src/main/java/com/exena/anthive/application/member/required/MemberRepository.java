@@ -1,7 +1,7 @@
 package com.exena.anthive.application.member.required;
 
-import com.exena.anthive.domain.shared.Email;
 import com.exena.anthive.domain.member.Member;
+import com.exena.anthive.domain.shared.Email;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
