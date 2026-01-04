@@ -6,6 +6,7 @@
 
 
 ## 제작과정
+<img width="1698" height="1101" alt="image" src="https://github.com/user-attachments/assets/f20e74ab-82be-4eb2-bf65-683bae7a8aaf" />
 - 백엔드는 Java Spring Boot 와 MariaDB를 사용했습니다.
 - 프론트엔드는 Thymeleaf와 Bootstrap을 사용했습니다.
 - 배포 서버는 AWS EC2를 사용했고 데이터베이스는 AWS RDS를 사용했습니다.
