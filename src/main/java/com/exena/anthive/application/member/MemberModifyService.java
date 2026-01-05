@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @RequiredArgsConstructor
 public class MemberModifyService implements MemberRegister {
-//    private final MemberFinder memberFinder; // 다른 포트를 가져와서 사용해도 괜찮다
+//    private final MemberFinder memberFinder; // 다른 포트를 가져와서 사용해도 괜찮다. 강의에선 회원 활성화 함수를 만들 때 씀.
     private final MemberRepository memberRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
