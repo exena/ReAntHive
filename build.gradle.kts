@@ -4,7 +4,7 @@ plugins {
     id("com.github.spotbugs") version "6.4.2"
 }
 
-group = "com.exena"
+group = "com.anthive"
 version = "0.0.1-SNAPSHOT"
 
 java {
