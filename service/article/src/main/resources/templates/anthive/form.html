@@ -9,7 +9,7 @@
 <nav th:replace="fragments/common :: menu(blog)"></nav>
 
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-20 pb-10">
-    <form action="#" th:action="@{/anthive/form}" th:object="${postForm}" method="article" id="entireForm">
+    <form action="#" th:action="@{/anthive/form}" th:object="${postForm}" method="post" id="entireForm">
         <input type="hidden" th:field="*{id}" id="formId">
 
         <div class="form-control mb-4">
