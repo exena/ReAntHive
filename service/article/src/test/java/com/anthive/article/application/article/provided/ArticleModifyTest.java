@@ -1,12 +1,12 @@
-package com.anthive.article.application.post.provided;
+package com.anthive.article.application.article.provided;
 
 import com.anthive.article.AnthiveTestConfiguration;
 import com.anthive.article.application.member.provided.MemberRegister;
+import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.member.Member;
 import com.anthive.article.domain.member.MemberFixture;
-import com.anthive.article.domain.post.Post;
-import com.anthive.article.domain.post.PostNotFoundException;
-import com.anthive.article.domain.post.PublishBlogpostFormRequest;
+import com.anthive.article.domain.article.ArticleNotFoundException;
+import com.anthive.article.domain.article.PublishArticleFormRequest;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.core.Authentication;
 
-import static com.anthive.article.domain.post.PostFixture.getPublishBlogpostFormRequest;
+import static com.anthive.article.domain.article.PostFixture.getPublishBlogpostFormRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
@@ -26,51 +26,51 @@ import static org.mockito.Mockito.mock;
 @SpringBootTest
 @Transactional
 @Import(AnthiveTestConfiguration.class)
-class PostModifyTest {
+class ArticleModifyTest {
     @Autowired MemberRegister memberRegister;
     @Autowired
-    PostModify postModify;
+    ArticleModify articleModify;
     @Autowired
-    PostFinder postFinder;
+    ArticleFinder articleFinder;
     @Autowired EntityManager entityManager;
     Member member;
-    Post post;
+    Article article;
 
     @BeforeEach
     void setUp() {
         member = memberRegister.register(MemberFixture.createRegisterRequest());
-        post = postModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
+        article = articleModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
         entityManager.flush();
         entityManager.clear();
     }
 
     @Test
     void publishPost() {
-        assertThat(post.getId()).isNotNull();
+        assertThat(article.getId()).isNotNull();
     }
 
     @Test
     void publishPostFail() {
-        PublishBlogpostFormRequest request = new PublishBlogpostFormRequest(null, null, "This is content");
+        PublishArticleFormRequest request = new PublishArticleFormRequest(null, null, "This is content");
 
-        assertThatThrownBy(()->postModify.publishPost(member.getEmail().address(), request)).
+        assertThatThrownBy(()-> articleModify.publishPost(member.getEmail().address(), request)).
                 isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test
     void editPost() {
-        postModify.editPost(member.getEmail().address(),  new PublishBlogpostFormRequest(post.getId(), "new title", "new content"));
+        articleModify.editPost(member.getEmail().address(),  new PublishArticleFormRequest(article.getId(), "new title", "new content"));
         entityManager.flush();
         entityManager.clear();
 
-        assertThat(postFinder.getPost(post.getId()).getContent()).isEqualTo("new content");
+        assertThat(articleFinder.getPost(article.getId()).getContent()).isEqualTo("new content");
     }
 
     @Test
     void editPostFail() {
-        Post post = postModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
+        Article article = articleModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
 
-        assertThatThrownBy(()->postModify.editPost(member.getEmail().address(),  new PublishBlogpostFormRequest(post.getId(), null, "new content")))
+        assertThatThrownBy(()-> articleModify.editPost(member.getEmail().address(),  new PublishArticleFormRequest(article.getId(), null, "new content")))
                 .isInstanceOf(ConstraintViolationException.class);
     }
 
@@ -78,11 +78,11 @@ class PostModifyTest {
     void deletePost() {
         Authentication auth = mock(Authentication.class);
         given(auth.getName()).willReturn(member.getEmail().address());
-        postModify.deletePost(post.getId(), auth);
+        articleModify.deletePost(article.getId(), auth);
         entityManager.flush();
         entityManager.clear();
 
-        assertThatThrownBy(()->postFinder.getPost(post.getId()))
-                .isInstanceOf(PostNotFoundException.class);
+        assertThatThrownBy(()-> articleFinder.getPost(article.getId()))
+                .isInstanceOf(ArticleNotFoundException.class);
     }
 }

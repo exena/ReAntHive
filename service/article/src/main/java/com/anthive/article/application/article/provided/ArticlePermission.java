@@ -1,7 +1,7 @@
-package com.anthive.article.application.post.provided;
+package com.anthive.article.application.article.provided;
 
 import org.springframework.security.core.Authentication;
 
-public interface PostPermission {
+public interface ArticlePermission {
     void checkAuthorPermission(Long postId, Authentication auth);
 }

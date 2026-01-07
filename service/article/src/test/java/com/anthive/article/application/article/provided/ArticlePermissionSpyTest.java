@@ -1,8 +1,8 @@
-package com.anthive.article.application.post.provided;
+package com.anthive.article.application.article.provided;
 
-import com.anthive.article.application.post.PostService;
+import com.anthive.article.application.article.ArticleService;
+import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.member.Member;
-import com.anthive.article.domain.post.Post;
 import com.anthive.article.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,22 +17,22 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PostPermissionSpyTest {
+class ArticlePermissionSpyTest {
 
     @InjectMocks
     @Spy
-    private PostService postService;   // <— Spy로 만들어야 내부 메서드 mocking 가능
+    private ArticleService postService;   // <— Spy로 만들어야 내부 메서드 mocking 가능
 
     @Test
     void mock_internal_getPost() {
         // given
-        Post mockPost = Mockito.mock(Post.class);
+        Article mockArticle = Mockito.mock(Article.class);
         Member mockMember = Mockito.mock(Member.class);
         when(mockMember.getEmail()).thenReturn(new Email("author@test.com"));
-        when(mockPost.getMember()).thenReturn(mockMember);
+        when(mockArticle.getMember()).thenReturn(mockMember);
 
         // ★ 핵심: getPost 내부 호출을 stub
-        doReturn(mockPost).when(postService).getPost(1L);
+        doReturn(mockArticle).when(postService).getPost(1L);
 
         Authentication auth = Mockito.mock(Authentication.class);
         when(auth.getName()).thenReturn("author@test.com");

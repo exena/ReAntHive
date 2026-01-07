@@ -30,7 +30,7 @@ anthive
   │  ├─ package-info.java
   │  ├─ shared
   │  │  └─ Email.java
-  │  ├─ post
+  │  ├─ article
   │  │  ├─ Post.java
   │  │  ├─ PostNotFoundException.java
   │  │  └─ PublishBlogpostFormRequest.java
@@ -40,7 +40,7 @@ anthive
   │     ├─ MemberRegisterRequest.java
   │     └─ Role.java
   ├─ application
-  │  ├─ post
+  │  ├─ article
   │  │  ├─ PostService.java
   │  │  ├─ required
   │  │  │  └─ PostRepository.java
@@ -59,7 +59,7 @@ anthive
   │        └─ MemberRegister.java
   └─ adapter
      ├─ webapi
-     │  ├─ post
+     │  ├─ article
      │  │  ├─ PostApi.java
      │  │  ├─ PostPage.java
      │  │  └─ dto

@@ -1,9 +1,9 @@
-package com.anthive.article.application.post.provided;
+package com.anthive.article.application.article.provided;
 
 import com.anthive.article.application.member.required.MemberRepository;
-import com.anthive.article.application.post.required.PostRepository;
+import com.anthive.article.application.article.required.ArticleRepository;
+import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.member.Member;
-import com.anthive.article.domain.post.Post;
 import com.anthive.article.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,16 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-class PostPermissionTest {
+class ArticlePermissionTest {
 
     @MockitoBean
     private MemberRepository memberRepository; // 실제 객체 사용 X
 
     @MockitoBean
-    private PostRepository postRepository; // 실제 객체 사용 X
+    private ArticleRepository articleRepository; // 실제 객체 사용 X
 
     @Autowired
-    private PostPermission postPermission; // 구현체는 PostService
+    private ArticlePermission articlePermission; // 구현체는 PostService
 
     @Test
     void author_can_delete_post() {
@@ -37,12 +37,12 @@ class PostPermissionTest {
         Member mockMember = Mockito.mock(Member.class);
         Mockito.when(mockMember.getEmail()).thenReturn(new Email("user@test.com"));
 
-        Post mockPost = Mockito.mock(Post.class);
-        Mockito.when(mockPost.getMember()).thenReturn(mockMember);
+        Article mockArticle = Mockito.mock(Article.class);
+        Mockito.when(mockArticle.getMember()).thenReturn(mockMember);
 
         // PostRepository 동작 모킹
-        Mockito.when(postRepository.findById(postId))
-                .thenReturn(Optional.of(mockPost));
+        Mockito.when(articleRepository.findById(postId))
+                .thenReturn(Optional.of(mockArticle));
 
         // 인증 객체 모킹
         Authentication auth = Mockito.mock(Authentication.class);
@@ -50,7 +50,7 @@ class PostPermissionTest {
 
         // when & then — 예외 없어야 정상
         assertDoesNotThrow(() ->
-                postPermission.checkAuthorPermission(postId, auth)
+                articlePermission.checkAuthorPermission(postId, auth)
         );
     }
 
@@ -62,19 +62,19 @@ class PostPermissionTest {
         Member mockAuthor = Mockito.mock(Member.class);
         Mockito.when(mockAuthor.getEmail()).thenReturn(new Email("author@test.com"));
 
-        Post mockPost = Mockito.mock(Post.class);
-        Mockito.when(mockPost.getMember()).thenReturn(mockAuthor);
+        Article mockArticle = Mockito.mock(Article.class);
+        Mockito.when(mockArticle.getMember()).thenReturn(mockAuthor);
 
         // PostRepository 동작 모킹
-        Mockito.when(postRepository.findById(postId))
-                .thenReturn(Optional.of(mockPost));
+        Mockito.when(articleRepository.findById(postId))
+                .thenReturn(Optional.of(mockArticle));
 
         Authentication auth = Mockito.mock(Authentication.class);
         Mockito.when(auth.getName()).thenReturn("other@test.com");
 
         // when & then — SecurityException 발생해야 함
         assertThrows(SecurityException.class, () ->
-                postPermission.checkAuthorPermission(postId, auth)
+                articlePermission.checkAuthorPermission(postId, auth)
         );
     }
 }

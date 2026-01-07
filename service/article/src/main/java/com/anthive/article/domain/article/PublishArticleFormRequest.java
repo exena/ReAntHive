@@ -1,4 +1,4 @@
-package com.anthive.article.domain.post;
+package com.anthive.article.domain.article;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PublishBlogpostFormRequest {
+public class PublishArticleFormRequest {
     private Long postId;
     @NotBlank
     @Size(min=1, max=50)

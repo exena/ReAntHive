@@ -1,8 +1,8 @@
-package com.anthive.article.application.post.required;
+package com.anthive.article.application.article.required;
 
 import com.anthive.article.application.member.required.MemberRepository;
+import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.member.Member;
-import com.anthive.article.domain.post.Post;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,14 +13,14 @@ import org.springframework.data.domain.PageRequest;
 
 import static com.anthive.article.domain.member.MemberFixture.createPasswordEncoder;
 import static com.anthive.article.domain.member.MemberFixture.createRegisterRequest;
-import static com.anthive.article.domain.post.PostFixture.getPublishBlogpostFormRequest;
+import static com.anthive.article.domain.article.PostFixture.getPublishBlogpostFormRequest;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
-class PostRepositoryTest {
+class ArticleRepositoryTest {
 
     @Autowired
-    private PostRepository postRepository;
+    private ArticleRepository articleRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -36,18 +36,18 @@ class PostRepositoryTest {
         Member member = Member.register(createRegisterRequest(), createPasswordEncoder());
         memberRepository.save(member);
 
-        Post p1 = Post.of(getPublishBlogpostFormRequest(), member);
-        Post p2 = Post.of(getPublishBlogpostFormRequest(), member);
-        Post p3 = Post.of(getPublishBlogpostFormRequest(), member);
-        postRepository.save(p1);
-        postRepository.save(p2);
-        postRepository.save(p3);
+        Article p1 = Article.of(getPublishBlogpostFormRequest(), member);
+        Article p2 = Article.of(getPublishBlogpostFormRequest(), member);
+        Article p3 = Article.of(getPublishBlogpostFormRequest(), member);
+        articleRepository.save(p1);
+        articleRepository.save(p2);
+        articleRepository.save(p3);
 
         entityManager.flush();
         entityManager.clear();
 
         // when
-        Page<Post> page = postRepository.findByMember(member, PageRequest.of(0, 2));
+        Page<Article> page = articleRepository.findByMember(member, PageRequest.of(0, 2));
 
         // then
         assertThat(page.getTotalElements()).isEqualTo(3);

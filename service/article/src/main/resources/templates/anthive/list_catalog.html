@@ -7,37 +7,37 @@
 <!--<div th:replace="fragments/common :: category_sidebar"></div>-->
 
 <!-- 상단 메뉴 -->
-<nav th:replace="fragments/common :: menu(post)"></nav>
+<nav th:replace="fragments/common :: menu(article)"></nav>
 
 <div class="max-w-5xl mx-auto px-4 py-32">
     <h2 class="text-3xl font-bold mb-8">게시판</h2>
 
     <!-- 카드 목록 -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div th:each="post : ${posts}" class="card bg-base-200 shadow-sm rounded-xl">
+        <div th:each="article : ${posts}" class="card bg-base-200 shadow-sm rounded-xl">
             <figure>
                 <img class="h-48 w-full object-cover"
                      src="https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg">
             </figure>
 
             <div class="card-body">
-                <h5 class="card-title text-xl font-semibold" th:text="${post.title}">Card title</h5>
+                <h5 class="card-title text-xl font-semibold" th:text="${article.title}">Card title</h5>
 
                 <a class="text-gray-600 line-clamp-3 hover:text-primary"
-                   th:text="${post.content}"
-                   th:href="@{/anthive/{member}/post/{post}(member=${post.member.email.address},post=${post.id})}">
+                   th:text="${article.content}"
+                   th:href="@{/anthive/{member}/article/{article}(member=${article.member.email.address},article=${article.id})}">
                     text
                 </a>
 
                 <!-- 수정 / 삭제 버튼 -->
                 <div class="flex justify-end gap-3"
-                     th:classappend="${post.member.email.address != #authentication.name}? ' hidden'">
-                    <a th:href="@{/anthive/form(postId=${post.id})}" class="text-primary hover:text-primary-focus">
+                     th:classappend="${article.member.email.address != #authentication.name}? ' hidden'">
+                    <a th:href="@{/anthive/form(postId=${article.id})}" class="text-primary hover:text-primary-focus">
                         <i data-lucide="pencil"></i>
                     </a>
                     <button type="button"
                             class="text-error hover:text-error-content"
-                            th:onclick="|deletePost(${post.id})|">
+                            th:onclick="|deletePost(${article.id})|">
                         <i data-lucide="trash-2"></i>
                     </button>
                 </div>
@@ -88,7 +88,7 @@
 
     // 삭제 요청
     function deletePost(id) {
-        fetch('/api/post/' + id, {
+        fetch('/api/article/' + id, {
             method: 'DELETE',
             headers: {
                 "[[${_csrf.headerName}]]": "[[${_csrf.token}]]"

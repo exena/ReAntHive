@@ -1,11 +1,11 @@
-package com.anthive.article.application.post.provided;
+package com.anthive.article.application.article.provided;
 
 import com.anthive.article.AnthiveTestConfiguration;
 import com.anthive.article.application.member.provided.MemberRegister;
+import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.member.Member;
 import com.anthive.article.domain.member.MemberFixture;
-import com.anthive.article.domain.post.Post;
-import com.anthive.article.domain.post.PostNotFoundException;
+import com.anthive.article.domain.article.ArticleNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,27 +18,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import static com.anthive.article.domain.post.PostFixture.getPublishBlogpostFormRequest;
+import static com.anthive.article.domain.article.PostFixture.getPublishBlogpostFormRequest;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
 @Import(AnthiveTestConfiguration.class)
-class PostFinderTest {
+class ArticleFinderTest {
     @Autowired MemberRegister memberRegister;
     @Autowired
-    PostModify postModify;
+    ArticleModify articleModify;
     @Autowired
-    PostFinder postFinder;
+    ArticleFinder articleFinder;
     @Autowired EntityManager entityManager;
     Member member;
-    Post post;
+    Article article;
 
     @BeforeEach
     void setUp() {
         member = memberRegister.register(MemberFixture.createRegisterRequest());
-        post = postModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
+        article = articleModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
 
         entityManager.flush();
         entityManager.clear();
@@ -50,7 +50,7 @@ class PostFinderTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        Page<Post> result = postFinder.getUsersPosts(member.getEmail().address(), pageable);
+        Page<Article> result = articleFinder.getUsersPosts(member.getEmail().address(), pageable);
 
         // then
         assertThat(result.getTotalElements()).isEqualTo(1);
@@ -64,21 +64,21 @@ class PostFinderTest {
 
         // when - then
         assertThrows(UsernameNotFoundException.class,
-                () -> postFinder.getUsersPosts(username, pageable));
+                () -> articleFinder.getUsersPosts(username, pageable));
     }
 
     @Test
     void getPost_success() {
         // when
-        Post result = postFinder.getPost(post.getId());
+        Article result = articleFinder.getPost(article.getId());
 
         // then
-        assertThat(result.getId()).isEqualTo(post.getId());
+        assertThat(result.getId()).isEqualTo(article.getId());
     }
 
     @Test
     void getPost_notFound() {
-        assertThrows(PostNotFoundException.class,
-                () -> postFinder.getPost(1L));
+        assertThrows(ArticleNotFoundException.class,
+                () -> articleFinder.getPost(1L));
     }
 }

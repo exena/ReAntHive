@@ -1,6 +1,6 @@
-package com.anthive.article.adapter.webapi.post;
+package com.anthive.article.adapter.webapi.article;
 
-import com.anthive.article.application.post.PostService;
+import com.anthive.article.application.article.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class PostApi {
+public class ArticleApi {
 
-    private final PostService postService;
+    private final ArticleService postService;
 
     @DeleteMapping("/post/{id}")
     void deletePost(@PathVariable("id") Long id, Authentication authentication){
