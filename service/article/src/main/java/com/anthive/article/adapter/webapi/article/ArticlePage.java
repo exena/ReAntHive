@@ -3,7 +3,7 @@ package com.anthive.article.adapter.webapi.article;
 import com.anthive.article.adapter.webapi.article.dto.GetArticleFormResponse;
 import com.anthive.article.application.article.ArticleService;
 import com.anthive.article.domain.article.Article;
-import com.anthive.article.domain.article.PublishArticleFormRequest;
+import com.anthive.article.domain.article.PublishArticleRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +31,7 @@ public class ArticlePage {
                 pageable.getPageSize(),
                 pageable.getSort()
         );
-        Page<Article> posts = postService.getUsersPosts(username, adjusted);
+        Page<Article> posts = postService.getAuthorsArticles(username, adjusted);
         int startPage = Math.max(1, posts.getPageable().getPageNumber() / 5 * 5 + 1);
         int endPage = Math.min(posts.getTotalPages(), startPage + 4);
         if(endPage == 0)
@@ -53,8 +53,8 @@ public class ArticlePage {
     @GetMapping(value = "/form", params = {"postId"})
     public String form(Model model, @RequestParam("postId") Long postId, Authentication auth) {
         try {
-            postService.checkAuthorPermission(postId, auth);
-            model.addAttribute("postForm", GetArticleFormResponse.of(postService.getPost(postId)));
+            postService.checkAuthorPermission(postId, auth.getName());
+            model.addAttribute("postForm", GetArticleFormResponse.of(postService.getArticle(postId)));
         } catch (Exception e){
             return "redirect:/anthive/form";
         }
@@ -62,19 +62,19 @@ public class ArticlePage {
     }
 
     @PostMapping("/form")
-    public String postForm(@Validated PublishArticleFormRequest request, BindingResult bindingResult, Authentication auth) {
+    public String postForm(@Validated PublishArticleRequest request, BindingResult bindingResult, Authentication auth) {
         if(bindingResult.hasErrors()){
             return "anthive/form";
         }
         //새로 만들때
         if(request.getPostId() == null) {
-            postService.publishPost(auth.getName(),request);
+            postService.publishArticle(auth.getName(),request);
         }
         //수정할때
         else{
             try {
-                postService.checkAuthorPermission(request.getPostId(), auth);
-                postService.publishPost(auth.getName(), request);
+                postService.checkAuthorPermission(request.getPostId(), auth.getName());
+                postService.publishArticle(auth.getName(), request);
             }catch (Exception e){
                 return "anthive/form";
             }
@@ -85,7 +85,7 @@ public class ArticlePage {
     @GetMapping(value = "/{username}/post/{postId}")
     public String view(Model model, @PathVariable("postId") Long postId){
         // 실제로 어떤 username이 넘어오든 관계가 없다는 문제가 있음.
-        Article article = postService.getPost(postId);
+        Article article = postService.getArticle(postId);
         model.addAttribute("postForm", article);
         return "anthive/view";
     }

@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PublishArticleFormRequest {
+public class PublishArticleRequest {
     private Long postId;
     @NotBlank
     @Size(min=1, max=50)
     private String title;
     private String content;
+    private Long boardId;
 }

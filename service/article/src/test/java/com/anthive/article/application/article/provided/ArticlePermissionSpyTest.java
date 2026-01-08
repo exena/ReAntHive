@@ -32,14 +32,14 @@ class ArticlePermissionSpyTest {
         when(mockArticle.getMember()).thenReturn(mockMember);
 
         // ★ 핵심: getPost 내부 호출을 stub
-        doReturn(mockArticle).when(postService).getPost(1L);
+        doReturn(mockArticle).when(postService).getArticle(1L);
 
         Authentication auth = Mockito.mock(Authentication.class);
         when(auth.getName()).thenReturn("author@test.com");
 
         // when & then
         assertDoesNotThrow(() ->
-                postService.checkAuthorPermission(1L, auth)
+                postService.checkAuthorPermission(1L, auth.getName())
         );
     }
 }

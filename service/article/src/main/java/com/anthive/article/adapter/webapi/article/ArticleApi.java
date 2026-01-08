@@ -1,22 +1,42 @@
 package com.anthive.article.adapter.webapi.article;
 
+import com.anthive.article.adapter.webapi.article.dto.ArticleResponse;
 import com.anthive.article.application.article.ArticleService;
+import com.anthive.article.domain.article.Article;
+import com.anthive.article.domain.article.PublishArticleRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class ArticleApi {
 
-    private final ArticleService postService;
+    private final ArticleService articleService;
 
-    @DeleteMapping("/post/{id}")
-    void deletePost(@PathVariable("id") Long id, Authentication authentication){
-        postService.deletePost(id, authentication);
+    @GetMapping("/v1/articles/{articleId}")
+    public ArticleResponse read(@PathVariable("articleId") Long articleId){
+        Article article = articleService.getArticle(articleId);
+        return ArticleResponse.from(article);
+    }
+
+    @PostMapping("/v1/articles")
+    public ArticleResponse create(@RequestBody PublishArticleRequest request, Authentication auth){
+        Article article = articleService.publishArticle(auth.getName(),request);
+        return ArticleResponse.from(article);
+    }
+
+    @PutMapping("v1/articles/{articleId}")
+    public ArticleResponse update(@PathVariable("articleId") Long articleId, @RequestBody PublishArticleRequest request, Authentication auth){
+        articleService.checkAuthorPermission(articleId, auth.getName());
+        articleService.editArticle(auth.getName(), request);
+        return ArticleResponse.from(articleService.getArticle(articleId));
+    }
+
+    @DeleteMapping("/post/{articleId}")
+    public void delete(@PathVariable("articleId") Long articleId, Authentication auth){
+        articleService.checkAuthorPermission(articleId, auth.getName());
+        articleService.deleteArticle(articleId, auth.getName());
     }
 }

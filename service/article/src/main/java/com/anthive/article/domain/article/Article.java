@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 import static java.util.Objects.requireNonNull;
 
 @Entity
@@ -16,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 @AllArgsConstructor(access= AccessLevel.PROTECTED)
 public class Article {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -28,10 +29,18 @@ public class Article {
     @JsonIgnore
     private Member member;
 
-    public static Article of(PublishArticleFormRequest request, Member member){
+    private Long boardId;
+
+    private Instant publishDate;
+
+    public static Article of(Long id, PublishArticleRequest request, Member member){
+        Long articleId = requireNonNull(id);
         String title = requireNonNull(request.getTitle());
+        Member author = requireNonNull(member);
         String content = request.getContent();
-        return new Article(null, title, content, requireNonNull(member));
+        Long boardId = request.getBoardId();
+        Instant publishDate = Instant.now();
+        return new Article(articleId, title, content, author, boardId, publishDate);
     }
 
     public void changeTitle(String newTitle){

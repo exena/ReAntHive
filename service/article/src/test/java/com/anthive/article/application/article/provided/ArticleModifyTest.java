@@ -6,7 +6,7 @@ import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.member.Member;
 import com.anthive.article.domain.member.MemberFixture;
 import com.anthive.article.domain.article.ArticleNotFoundException;
-import com.anthive.article.domain.article.PublishArticleFormRequest;
+import com.anthive.article.domain.article.PublishArticleRequest;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
@@ -39,50 +39,50 @@ class ArticleModifyTest {
     @BeforeEach
     void setUp() {
         member = memberRegister.register(MemberFixture.createRegisterRequest());
-        article = articleModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
+        article = articleModify.publishArticle(member.getEmail().address(), getPublishBlogpostFormRequest());
         entityManager.flush();
         entityManager.clear();
     }
 
     @Test
-    void publishPost() {
+    void publishArticle() {
         assertThat(article.getId()).isNotNull();
     }
 
     @Test
-    void publishPostFail() {
-        PublishArticleFormRequest request = new PublishArticleFormRequest(null, null, "This is content");
+    void publishArticleFail() {
+        PublishArticleRequest request = new PublishArticleRequest(null, null, "This is content", 1L);
 
-        assertThatThrownBy(()-> articleModify.publishPost(member.getEmail().address(), request)).
+        assertThatThrownBy(()-> articleModify.publishArticle(member.getEmail().address(), request)).
                 isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test
-    void editPost() {
-        articleModify.editPost(member.getEmail().address(),  new PublishArticleFormRequest(article.getId(), "new title", "new content"));
+    void editArticle() {
+        articleModify.editArticle(member.getEmail().address(),  new PublishArticleRequest(article.getId(), "new title", "new content", 1L));
         entityManager.flush();
         entityManager.clear();
 
-        assertThat(articleFinder.getPost(article.getId()).getContent()).isEqualTo("new content");
+        assertThat(articleFinder.getArticle(article.getId()).getContent()).isEqualTo("new content");
     }
 
     @Test
-    void editPostFail() {
-        Article article = articleModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
+    void editArticleFail() {
+        Article article = articleModify.publishArticle(member.getEmail().address(), getPublishBlogpostFormRequest());
 
-        assertThatThrownBy(()-> articleModify.editPost(member.getEmail().address(),  new PublishArticleFormRequest(article.getId(), null, "new content")))
+        assertThatThrownBy(()-> articleModify.editArticle(member.getEmail().address(),  new PublishArticleRequest(article.getId(), null, "new content", 1L)))
                 .isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test
-    void deletePost() {
+    void deleteArticle() {
         Authentication auth = mock(Authentication.class);
         given(auth.getName()).willReturn(member.getEmail().address());
-        articleModify.deletePost(article.getId(), auth);
+        articleModify.deleteArticle(article.getId(), auth.getName());
         entityManager.flush();
         entityManager.clear();
 
-        assertThatThrownBy(()-> articleFinder.getPost(article.getId()))
+        assertThatThrownBy(()-> articleFinder.getArticle(article.getId()))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 }

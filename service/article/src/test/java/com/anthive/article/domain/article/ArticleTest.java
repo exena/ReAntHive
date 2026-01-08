@@ -17,18 +17,18 @@ class ArticleTest {
     @BeforeEach
     void setUp() {
         // given
-        PublishArticleFormRequest request = getPublishBlogpostFormRequest();
+        PublishArticleRequest request = getPublishBlogpostFormRequest();
 
         // when
         member = Mockito.mock(Member.class);
-        article = Article.of(request, member);
+        article = Article.of(1L, request, member);
     }
 
     @Test
     @DisplayName("Post.of(): 요청값과 Member로 올바른 Post가 생성된다")
     void createPostFromFactoryMethod() {
         // then
-        assertThat(article.getId()).isNull();
+        // assertThat(article.getId()).isNull();
         assertThat(article.getTitle()).isEqualTo("Hello World");
         assertThat(article.getContent()).isEqualTo("This is content");
         assertThat(article.getMember()).isEqualTo(member);
@@ -38,10 +38,10 @@ class ArticleTest {
     @DisplayName("title이 null이면 예외를 반환한다")
     void constructorNullCheck() {
         //when
-        var publishBlogpostFormRequest = new PublishArticleFormRequest();
+        var publishBlogpostFormRequest = new PublishArticleRequest();
 
         //then
-        assertThatThrownBy(()-> Article.of(publishBlogpostFormRequest,member))
+        assertThatThrownBy(()-> Article.of(1L, publishBlogpostFormRequest, member))
                 .isInstanceOf(NullPointerException.class);
     }
 

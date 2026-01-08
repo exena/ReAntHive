@@ -1,12 +1,11 @@
 package com.anthive.article.application.article.provided;
 
 import com.anthive.article.domain.article.Article;
-import com.anthive.article.domain.article.PublishArticleFormRequest;
+import com.anthive.article.domain.article.PublishArticleRequest;
 import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
 
 public interface ArticleModify {
-    Article publishPost(String username, @Valid PublishArticleFormRequest request);
-    void editPost(String username, @Valid PublishArticleFormRequest request);
-    void deletePost(Long postId, Authentication auth);
+    Article publishArticle(String username, @Valid PublishArticleRequest request);
+    void editArticle(String username, @Valid PublishArticleRequest request);
+    void deleteArticle(Long postId, String username);
 }

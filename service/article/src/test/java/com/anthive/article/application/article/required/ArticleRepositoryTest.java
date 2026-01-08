@@ -36,9 +36,9 @@ class ArticleRepositoryTest {
         Member member = Member.register(createRegisterRequest(), createPasswordEncoder());
         memberRepository.save(member);
 
-        Article p1 = Article.of(getPublishBlogpostFormRequest(), member);
-        Article p2 = Article.of(getPublishBlogpostFormRequest(), member);
-        Article p3 = Article.of(getPublishBlogpostFormRequest(), member);
+        Article p1 = Article.of(1L, getPublishBlogpostFormRequest(), member);
+        Article p2 = Article.of(2L, getPublishBlogpostFormRequest(), member);
+        Article p3 = Article.of(3L, getPublishBlogpostFormRequest(), member);
         articleRepository.save(p1);
         articleRepository.save(p2);
         articleRepository.save(p3);

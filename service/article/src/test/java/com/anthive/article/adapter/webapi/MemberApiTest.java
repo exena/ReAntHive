@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 @WebMvcTest(MemberApi.class)
 @Import(SecurityTestConfiguration.class)
+@ActiveProfiles("test")
 class MemberApiTest {
     @MockitoBean
     private MemberRegister memberRegister;

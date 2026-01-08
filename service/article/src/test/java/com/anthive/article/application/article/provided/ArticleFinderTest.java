@@ -38,47 +38,47 @@ class ArticleFinderTest {
     @BeforeEach
     void setUp() {
         member = memberRegister.register(MemberFixture.createRegisterRequest());
-        article = articleModify.publishPost(member.getEmail().address(), getPublishBlogpostFormRequest());
+        article = articleModify.publishArticle(member.getEmail().address(), getPublishBlogpostFormRequest());
 
         entityManager.flush();
         entityManager.clear();
     }
 
     @Test
-    void getUsersPosts_success() {
+    void getAuthorsArticles_success() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        Page<Article> result = articleFinder.getUsersPosts(member.getEmail().address(), pageable);
+        Page<Article> result = articleFinder.getAuthorsArticles(member.getEmail().address(), pageable);
 
         // then
         assertThat(result.getTotalElements()).isEqualTo(1);
     }
 
     @Test
-    void getUsersPosts_memberNotFound() {
+    void getAuthorsArticles_memberNotFound() {
         // given
         String username = "unknown@test.com";
         Pageable pageable = PageRequest.of(0, 10);
 
         // when - then
         assertThrows(UsernameNotFoundException.class,
-                () -> articleFinder.getUsersPosts(username, pageable));
+                () -> articleFinder.getAuthorsArticles(username, pageable));
     }
 
     @Test
-    void getPost_success() {
+    void getArticle_success() {
         // when
-        Article result = articleFinder.getPost(article.getId());
+        Article result = articleFinder.getArticle(article.getId());
 
         // then
         assertThat(result.getId()).isEqualTo(article.getId());
     }
 
     @Test
-    void getPost_notFound() {
+    void getArticle_notFound() {
         assertThrows(ArticleNotFoundException.class,
-                () -> articleFinder.getPost(1L));
+                () -> articleFinder.getArticle(1L));
     }
 }

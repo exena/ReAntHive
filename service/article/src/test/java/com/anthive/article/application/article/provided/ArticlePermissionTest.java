@@ -50,7 +50,7 @@ class ArticlePermissionTest {
 
         // when & then — 예외 없어야 정상
         assertDoesNotThrow(() ->
-                articlePermission.checkAuthorPermission(postId, auth)
+                articlePermission.checkAuthorPermission(postId, auth.getName())
         );
     }
 
@@ -74,7 +74,7 @@ class ArticlePermissionTest {
 
         // when & then — SecurityException 발생해야 함
         assertThrows(SecurityException.class, () ->
-                articlePermission.checkAuthorPermission(postId, auth)
+                articlePermission.checkAuthorPermission(postId, auth.getName())
         );
     }
 }

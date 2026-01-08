@@ -8,12 +8,15 @@ import java.util.HashSet;
 
 public class MemberFixture {
 
+    public static final String TEST_EMAIL_ADDRESS = "test01@test.com";
+    public static final String TEST_PASSWORD = "my_password";
+
     public static MemberRegisterRequest createRegisterRequest() {
-        return new MemberRegisterRequest("test01@test.com", "테스트닉", "my_password", new HashSet<Role>());
+        return new MemberRegisterRequest(TEST_EMAIL_ADDRESS, "테스트닉", TEST_PASSWORD, new HashSet<Role>());
     }
 
     public static MemberRegisterRequest createRegisterRequest(String email) {
-        return new MemberRegisterRequest(email, "테스트닉", "my_password", new HashSet<Role>());
+        return new MemberRegisterRequest(email, "테스트닉", TEST_PASSWORD, new HashSet<Role>());
     }
 
     public static PasswordEncoder createPasswordEncoder() {

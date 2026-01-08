@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface ArticleFinder {
-    Page<Article> getUsersPosts(String username, Pageable pageable);
-    Article getPost(Long postId);
+    Page<Article> getAuthorsArticles(String username, Pageable pageable);
+    Article getArticle(Long postId);
 }
