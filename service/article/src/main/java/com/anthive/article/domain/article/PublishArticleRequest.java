@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PublishArticleRequest {
-    private Long postId;
+    private Long articleId;
     @NotBlank
     @Size(min=1, max=50)
     private String title;

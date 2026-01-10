@@ -67,13 +67,13 @@ public class ArticlePage {
             return "anthive/form";
         }
         //새로 만들때
-        if(request.getPostId() == null) {
+        if(request.getArticleId() == null) {
             postService.publishArticle(auth.getName(),request);
         }
         //수정할때
         else{
             try {
-                postService.checkAuthorPermission(request.getPostId(), auth.getName());
+                postService.checkAuthorPermission(request.getArticleId(), auth.getName());
                 postService.publishArticle(auth.getName(), request);
             }catch (Exception e){
                 return "anthive/form";

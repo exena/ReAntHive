@@ -51,7 +51,7 @@ public class ArticleService implements ArticleFinder, ArticleModify, ArticlePerm
     }
 
     public void editArticle(String username, PublishArticleRequest request){
-        Article article = getArticle(request.getPostId());
+        Article article = getArticle(request.getArticleId());
         article.changeTitle(request.getTitle());
         article.changeContent(request.getContent());
         articleRepository.save(article);
