@@ -7,8 +7,6 @@ import com.anthive.article.domain.article.PostFixture;
 import com.anthive.article.domain.member.Member;
 import com.anthive.article.domain.member.MemberFixture;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import kuke.board.common.snowflake.Snowflake;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,8 +35,8 @@ public class DataInitializer {
     MemberRegister memberRegister;
     Member member;
 
-    static final int BULK_INSERT_SIZE = 10;
-    static final int EXECUTE_COUNT = 10;
+    static final int BULK_INSERT_SIZE = 2000;
+    static final int EXECUTE_COUNT = 6000;
 
     @BeforeEach
     void setUp() {
@@ -68,6 +66,8 @@ public class DataInitializer {
                 Article article = Article.of(snowflake.nextId(), PostFixture.getPublishBlogpostFormRequest(), member);
                 entityManager.persist(article);
             }
+            entityManager.flush();
+            entityManager.clear();
         });
     }
 }

@@ -7,16 +7,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AnthiveApplicationTests {
+class ArticleApplicationTests {
 
     @Test
     void run() {
         try (MockedStatic<SpringApplication> mockedStatic = Mockito.mockStatic(SpringApplication.class)) {
 
-            AnthiveApplication.main(new String[0]);
+            ArticleApplication.main(new String[0]);
 
             mockedStatic.verify(() ->
-                    SpringApplication.run(AnthiveApplication.class, new String[]{})
+                    SpringApplication.run(ArticleApplication.class, new String[]{})
             );
         }
     }
