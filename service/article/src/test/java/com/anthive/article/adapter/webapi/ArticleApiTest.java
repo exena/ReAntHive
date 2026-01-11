@@ -1,14 +1,12 @@
 package com.anthive.article.adapter.webapi;
 
 import com.anthive.article.SecurityTestConfiguration;
-import com.anthive.article.adapter.webapi.article.dto.ArticleResponse;
+import com.anthive.article.application.article.ArticlePageResponse;
+import com.anthive.article.application.article.ArticleResponse;
+import com.anthive.article.application.member.provided.MemberFinder;
 import com.anthive.article.application.member.provided.MemberRegister;
-import com.anthive.article.domain.article.ArticleNotFoundException;
-import com.anthive.article.domain.article.PublishArticleRequest;
 import com.anthive.article.domain.member.Member;
 import com.anthive.article.domain.member.MemberFixture;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
@@ -38,12 +34,15 @@ class ArticleApiTest {
     Member member;
     @Autowired
     MemberRegister memberRegister;
+    @Autowired
+    MemberFinder memberFinder;
 
     @BeforeEach
     void setUp() {
         restClient = RestClient.create("http://localhost:" + port);
 
-        member = memberRegister.register(MemberFixture.createRegisterRequest());
+        // member = memberRegister.register(MemberFixture.createRegisterRequest());
+        member = memberFinder.find(1L);
     }
 
     @Test
@@ -106,6 +105,20 @@ class ArticleApiTest {
         assertThatThrownBy(() -> read(postResponse.id()))
                 .isInstanceOf(RestClientResponseException.class)
                 .hasMessageContaining("404");
+    }
+
+    @Test
+    void readAllTest() {
+        ArticlePageResponse response = restClient.get()
+                .uri("/api/v1/articles?boardId=1&pageSize=30&page=50000")
+                .headers(h -> h.setBasicAuth(member.getEmail().address(), member.getPasswordHash()))
+                .retrieve()
+                .body(ArticlePageResponse.class);
+
+        System.out.println("response.getArticleCount() = " + response.getArticleCount());
+        for (ArticleResponse article : response.getArticles()) {
+            System.out.println("articleId = " + article.id());
+        }
     }
 
     @Getter

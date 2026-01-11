@@ -4,12 +4,16 @@ import com.anthive.article.application.member.required.MemberRepository;
 import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.member.Member;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
 
 import static com.anthive.article.domain.member.MemberFixture.createPasswordEncoder;
 import static com.anthive.article.domain.member.MemberFixture.createRegisterRequest;
