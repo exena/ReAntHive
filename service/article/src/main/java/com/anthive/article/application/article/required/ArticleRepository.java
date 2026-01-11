@@ -16,7 +16,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(
             value = "select article.id, article.title, article.content, article.board_id, article.member_id, " +
-                    "article.created_at, article.modified_at " +
+                    "article.publish_date " +
                     "from (" +
                     "   select id from article " +
                     "   where board_id = :boardId " +
@@ -27,4 +27,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     )
     List<Article> findAll(@Param("boardId") Long boardId, @Param("offset") Long offset, @Param("limit") Long limit);
 
+    @Query(
+            value = "select count(*) from (" +
+                    "   select id from article where board_id = :boardId limit :limit" +
+                    ") t",
+            nativeQuery = true
+    )
+    Long count(@Param("boardId") Long boardId, @Param("limit") Long limit);
 }

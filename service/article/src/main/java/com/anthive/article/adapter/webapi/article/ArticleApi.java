@@ -1,6 +1,7 @@
 package com.anthive.article.adapter.webapi.article;
 
-import com.anthive.article.adapter.webapi.article.dto.ArticleResponse;
+import com.anthive.article.application.article.ArticlePageResponse;
+import com.anthive.article.application.article.ArticleResponse;
 import com.anthive.article.application.article.ArticleService;
 import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.article.PublishArticleRequest;
@@ -19,6 +20,15 @@ public class ArticleApi {
     public ArticleResponse read(@PathVariable("articleId") Long articleId){
         Article article = articleService.getArticle(articleId);
         return ArticleResponse.from(article);
+    }
+
+    @GetMapping("/v1/articles")
+    public ArticlePageResponse readAll(
+            @RequestParam("boardId") Long boardId,
+            @RequestParam("page") Long page,
+            @RequestParam("pageSize") Long pageSize
+    ) {
+        return articleService.readAll(boardId, page, pageSize);
     }
 
     @PostMapping("/v1/articles")

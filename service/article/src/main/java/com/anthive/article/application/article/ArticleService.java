@@ -14,10 +14,14 @@ import com.anthive.article.domain.shared.Email;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 
 @Service
@@ -36,6 +40,39 @@ public class ArticleService implements ArticleFinder, ArticleModify, ArticlePerm
         return articleRepository.findByMember(member, pageable);
     }
 
+    public ArticlePageResponse readAll(Long boardId, Long page, Long pageSize) {
+        return ArticlePageResponse.of(
+                articleRepository.findAll(boardId, (page - 1) * pageSize, pageSize).stream()
+                        .map(ArticleResponse::from)
+                        .toList(),
+                articleRepository.count(
+                        boardId,
+                        PageLimitCalculator.calculatePageLimit(page, pageSize, 10L)
+                )
+        );
+    }
+
+    public Page<Article> readAllPage(
+            Long boardId,
+            Long page,
+            Long pageSize
+    ) {
+        long offset = (page - 1) * pageSize;
+
+        List<Article> content =
+                articleRepository.findAll(boardId, offset, pageSize);
+
+        long total =
+                articleRepository.count(
+                        boardId,
+                        PageLimitCalculator.calculatePageLimit(page, pageSize, 10L)
+                );
+
+        PageRequest pageRequest =
+                PageRequest.of(page.intValue() - 1, pageSize.intValue());
+
+        return new PageImpl<>(content, pageRequest, total);
+    }
 
     public Article getArticle(Long postId) {
         return articleRepository.findById(postId)

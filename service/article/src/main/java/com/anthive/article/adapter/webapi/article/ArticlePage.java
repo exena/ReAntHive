@@ -27,11 +27,12 @@ public class ArticlePage {
     @GetMapping("/{username}/catalog-list")
     public String list_catalog(Model model, @PageableDefault(size = 20) Pageable pageable, @PathVariable("username") String username) {
         Pageable adjusted = PageRequest.of(
-                Math.max(0, pageable.getPageNumber() - 1), //유저 측에서는 1부터 시작하지만 내부적으론 0부터 시작함.
-                pageable.getPageSize(),
-                pageable.getSort()
+             Math.max(0, pageable.getPageNumber() - 1), //유저 측에서는 1부터 시작하지만 내부적으론 0부터 시작함.
+             pageable.getPageSize(),
+             pageable.getSort()
         );
         Page<Article> posts = postService.getAuthorsArticles(username, adjusted);
+        // Page<Article> posts = postService.readAllPage(1L, (long) pageable.getPageNumber() + 1, (long) pageable.getPageSize());
         int startPage = Math.max(1, posts.getPageable().getPageNumber() / 5 * 5 + 1);
         int endPage = Math.min(posts.getTotalPages(), startPage + 4);
         if(endPage == 0)
