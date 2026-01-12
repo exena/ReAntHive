@@ -52,11 +52,7 @@ public class ArticleService implements ArticleFinder, ArticleModify, ArticlePerm
         );
     }
 
-    public Page<Article> readAllPage(
-            Long boardId,
-            Long page,
-            Long pageSize
-    ) {
+    public Page<Article> readAllPage(Long boardId, Long page, Long pageSize) {
         long offset = (page - 1) * pageSize;
 
         List<Article> content =
@@ -72,6 +68,13 @@ public class ArticleService implements ArticleFinder, ArticleModify, ArticlePerm
                 PageRequest.of(page.intValue() - 1, pageSize.intValue());
 
         return new PageImpl<>(content, pageRequest, total);
+    }
+
+    public List<ArticleResponse> readAllInfiniteScroll(Long boardId, Long pageSize, Long lastArticleId) {
+        List<Article> articles = lastArticleId == null ?
+                articleRepository.findAllInfiniteScroll(boardId, pageSize) :
+                articleRepository.findAllInfiniteScroll(boardId, pageSize, lastArticleId);
+        return articles.stream().map(ArticleResponse::from).toList();
     }
 
     public Article getArticle(Long postId) {
