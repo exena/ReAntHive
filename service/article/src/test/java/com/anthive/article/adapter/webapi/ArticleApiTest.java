@@ -15,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -118,6 +121,34 @@ class ArticleApiTest {
         System.out.println("response.getArticleCount() = " + response.getArticleCount());
         for (ArticleResponse article : response.getArticles()) {
             System.out.println("articleId = " + article.id());
+        }
+    }
+
+    @Test
+    void readAllInfiniteScrollTest() {
+        List<ArticleResponse> articles1 = restClient.get()
+                .uri("/api/v1/articles/infinite-scroll?boardId=1&pageSize=5")
+                .headers(h -> h.setBasicAuth(member.getEmail().address(), member.getPasswordHash()))
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<ArticleResponse>>() {
+                });
+
+        System.out.println("firstPage");
+        for (ArticleResponse articleResponse : articles1) {
+            System.out.println("articleResponse.getArticleId() = " + articleResponse.id());
+        }
+
+        Long lastArticleId = articles1.getLast().id();
+        List<ArticleResponse> articles2 = restClient.get()
+                .uri("/api/v1/articles/infinite-scroll?boardId=1&pageSize=5&lastArticleId=%s".formatted(lastArticleId))
+                .headers(h -> h.setBasicAuth(member.getEmail().address(), member.getPasswordHash()))
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<ArticleResponse>>() {
+                });
+
+        System.out.println("secondPage");
+        for (ArticleResponse articleResponse : articles2) {
+            System.out.println("articleResponse.id() = " + articleResponse.id());
         }
     }
 
