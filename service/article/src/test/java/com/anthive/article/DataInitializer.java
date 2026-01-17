@@ -1,6 +1,5 @@
-package com.anthive.article.application.article;
+package com.anthive.article;
 
-import com.anthive.article.SecurityTestConfiguration;
 import com.anthive.article.application.member.provided.MemberRegister;
 import com.anthive.article.domain.article.Article;
 import com.anthive.article.domain.article.PostFixture;
