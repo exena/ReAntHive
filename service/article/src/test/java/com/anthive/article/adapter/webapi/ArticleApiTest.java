@@ -44,8 +44,8 @@ class ArticleApiTest {
     void setUp() {
         restClient = RestClient.create("http://localhost:" + port);
 
-        // member = memberRegister.register(MemberFixture.createRegisterRequest());
-        member = memberFinder.find(1L);
+         member = memberRegister.register(MemberFixture.createRegisterRequest());
+//        member = memberFinder.find(1L);
     }
 
     @Test

@@ -4,6 +4,8 @@ services:
     container_name: mysql-test
     ports:
       - "3307:3306"
+    volumes:
+      - D:/docker-volumes/like-mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: testdb
       MYSQL_USER: test

@@ -8,3 +8,5 @@ services:
       - 'MYSQL_USER=myuser'
     ports:
       - '3306:3306'
+    volumes:
+      - D:/docker-volumes/like-mysql:/var/lib/mysql
